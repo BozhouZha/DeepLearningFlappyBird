@@ -154,9 +154,10 @@ def getRandomPipe():
     gapY += int(BASEY * 0.2)
     pipeX = SCREENWIDTH + 10
 
+    gap_scale = np.random.rand()*0.8+0.8
     return [
         {'x': pipeX, 'y': gapY - PIPE_HEIGHT},  # upper pipe
-        {'x': pipeX, 'y': gapY + PIPEGAPSIZE},  # lower pipe
+        {'x': pipeX, 'y': gapY + gap_scale*PIPEGAPSIZE},  # lower pipe
     ]
 
 
