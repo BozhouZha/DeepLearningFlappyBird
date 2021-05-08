@@ -10,6 +10,7 @@ import random
 import numpy as np
 from collections import deque
 from create_network import createNetwork
+import matplotlib.pyplot as plt
 
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
@@ -57,32 +58,71 @@ def trainNetwork(s, readout, sess):
     # start training
     epsilon = INITIAL_EPSILON
     t = 0
+    # count the fps
+    fps_count = 1
+    min_count = 0
+    score_permin = []
+    mean_score = []
+    cur_score = [0]
+
+    # instantly plot
+    plt.ion()
+    # plt.figure(1)
     while "flappy bird" != "angry bird":
+
+        # ================ plotting part: Zhuheng =============
         # choose an action epsilon greedily
-        readout_t = readout.eval(feed_dict={s : [s_t]})[0]
+        # if fps_count == 2000:    # 1 mins 2000
+        #     score_permin.append(sum(cur_score))
+        #     mean_score.append(float(sum(cur_score)/len(cur_score)))
+        #     min_count += 1
+        #
+        #     # draw the plot instantly
+        #     plt.figure(1)
+        #     plt.clf()
+        #     plt.title('Total scores every 2000 fps (per minute)')
+        #     plt.xlabel('minutes')
+        #     plt.ylabel('scores')
+        #     plt.plot(np.arange(1, min_count+1), np.array(score_permin), 'rx-')
+        #
+        #
+        #     plt.figure(2)
+        #     plt.clf()
+        #     plt.title('Average scores per round every 2000 fps (per minute)')
+        #     plt.xlabel('minutes')
+        #     plt.ylabel('every scores')
+        #     plt.plot(np.arange(1, min_count + 1), np.array(mean_score), 'rx-')
+        #
+        #     plt.pause(0.01)
+        #
+        #     # reset the current score list and count
+        #     cur_score = [0]
+        #     fps_count = 1
+
+        readout_t = readout.eval(feed_dict={s: [s_t]})[0]
         a_t = np.zeros([ACTIONS])
         action_index = 0
         if t % FRAME_PER_ACTION == 0:
-            if random.random() <= epsilon:
+            if random.random() <= epsilon:  # epsilon-greedy: <e uniform action
                 print("----------Random Action----------")
                 action_index = random.randrange(ACTIONS)
-                a_t[random.randrange(ACTIONS)] = 1
+                a_t[random.randrange(ACTIONS)] = 1  # initialization at the random action
             else:
                 action_index = np.argmax(readout_t)
                 a_t[action_index] = 1
         else:
-            a_t[0] = 1 # do nothing
+            a_t[0] = 1  # do nothing
 
         # scale down epsilon
         if epsilon > FINAL_EPSILON and t > OBSERVE:
             epsilon -= (INITIAL_EPSILON - FINAL_EPSILON) / EXPLORE
 
         # run the selected action and observe next state and reward
-        x_t1_colored, r_t, terminal = game_state.frame_step(a_t)
+        x_t1_colored, r_t, terminal = game_state.frame_step(a_t)  # r_t saved 100 step
         x_t1 = cv2.cvtColor(cv2.resize(x_t1_colored, (80, 80)), cv2.COLOR_BGR2GRAY)
         ret, x_t1 = cv2.threshold(x_t1, 1, 255, cv2.THRESH_BINARY)
         x_t1 = np.reshape(x_t1, (80, 80, 1))
-        #s_t1 = np.append(x_t1, s_t[:,:,1:], axis = 2)
+        # s_t1 = np.append(x_t1, s_t[:,:,1:], axis = 2)
         s_t1 = np.append(x_t1, s_t[:, :, :3], axis=2)
 
         # store the transition in D
@@ -102,7 +142,7 @@ def trainNetwork(s, readout, sess):
             s_j1_batch = [d[3] for d in minibatch]
 
             y_batch = []
-            readout_j1_batch = readout.eval(feed_dict = {s : s_j1_batch})
+            readout_j1_batch = readout.eval(feed_dict={s: s_j1_batch})
             for i in range(0, len(minibatch)):
                 terminal = minibatch[i][4]
                 # if terminal, only equals reward
@@ -112,10 +152,10 @@ def trainNetwork(s, readout, sess):
                     y_batch.append(r_batch[i] + GAMMA * np.max(readout_j1_batch[i]))
 
             # perform gradient step
-            train_step.run(feed_dict = {
-                y : y_batch,
-                a : a_batch,
-                s : s_j_batch}
+            train_step.run(feed_dict={
+                y: y_batch,
+                a: a_batch,
+                s: s_j_batch}
             )
 
         # update the old values
@@ -124,7 +164,7 @@ def trainNetwork(s, readout, sess):
 
         # save progress every 10000 iterations
         if t % 10000 == 0:
-            saver.save(sess, 'saved_networks/' + GAME + '-dqn', global_step = t)
+            saver.save(sess, 'saved_networks/' + GAME + '-dqn', global_step=t)
 
         # print info
         state = ""
@@ -136,8 +176,17 @@ def trainNetwork(s, readout, sess):
             state = "train"
 
         print("TIMESTEP", t, "/ STATE", state, \
-            "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
-            "/ Q_MAX %e" % np.max(readout_t))
+              "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
+              "/ Q_MAX %e" % np.max(readout_t))
+        game_score = game_state.score
+        print(game_score)
+
+        # record the current minute score ============== Zhuheng
+        # if game_score != 0 and game_score != cur_score[-1]:
+        #     cur_score[-1] = game_score
+        # elif game_score == 0 and cur_score[-1] != 0:
+        #     cur_score.append(0)
+        # fps_count += 1    # count the fps
 
 
 def playGame():

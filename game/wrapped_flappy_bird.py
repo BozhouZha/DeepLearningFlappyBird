@@ -155,13 +155,16 @@ def getRandomPipe():
     index = random.randint(0, len(gapYs)-1)
     gapY = gapYs[index]
 
+    x_incremental = random.uniform(0.5, 1.5)    # 0.5 1.5
+    # x_incremental = 1
     gapY += int(BASEY * 0.2)
-    pipeX = SCREENWIDTH + 10
+    pipeX = SCREENWIDTH + int(10 * x_incremental)    # 10
 
     return [
         {'x': pipeX, 'y': gapY - PIPE_HEIGHT},  # upper pipe
         {'x': pipeX, 'y': gapY + PIPEGAPSIZE},  # lower pipe
     ]
+
 
 
 def showScore(score):
