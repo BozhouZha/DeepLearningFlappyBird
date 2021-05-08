@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05594c1c-dd59-4fe0-a702-3ef829f9dd5a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deep_q_network.py" beforeDir="false" afterPath="$PROJECT_DIR$/deep_q_network.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/wrapped_flappy_bird.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/wrapped_flappy_bird.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saved_networks/checkpoint" beforeDir="false" afterPath="$PROJECT_DIR$/saved_networks/checkpoint" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +36,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/deep_q_network.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
@@ -60,7 +63,10 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="05594c1c-dd59-4fe0-a702-3ef829f9dd5a" name="Default Changelist" comment="" />
@@ -74,5 +80,82 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="198" y="155" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620375616506">
+      <screen x="0" y="25" width="1680" height="945" />
+    </state>
+    <state x="198" y="155" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1680.945@0.25.1680.945" timestamp="1620375616506" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom" timestamp="1620460804084">
+      <screen x="0" y="25" width="1680" height="949" />
+    </state>
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.945@0.25.1680.945" timestamp="1620382274525" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.947@0.25.1680.947" timestamp="1620375675144" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.949@0.25.1680.949" timestamp="1620460804084" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.951@0.25.1680.951" timestamp="1620447445065" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.953@0.25.1680.953" timestamp="1620448613876" />
+    <state width="1326" height="222" key="GridCell.Tab.0.bottom/0.25.1680.954@0.25.1680.954" timestamp="1620450050060" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center" timestamp="1620460804083">
+      <screen x="0" y="25" width="1680" height="949" />
+    </state>
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.945@0.25.1680.945" timestamp="1620382274524" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.947@0.25.1680.947" timestamp="1620375675144" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.949@0.25.1680.949" timestamp="1620460804083" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.951@0.25.1680.951" timestamp="1620447445064" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.953@0.25.1680.953" timestamp="1620448613875" />
+    <state width="1326" height="222" key="GridCell.Tab.0.center/0.25.1680.954@0.25.1680.954" timestamp="1620450050059" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left" timestamp="1620460804083">
+      <screen x="0" y="25" width="1680" height="949" />
+    </state>
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.945@0.25.1680.945" timestamp="1620382274524" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.947@0.25.1680.947" timestamp="1620375675143" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.949@0.25.1680.949" timestamp="1620460804083" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.951@0.25.1680.951" timestamp="1620447445063" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.953@0.25.1680.953" timestamp="1620448613874" />
+    <state width="1326" height="222" key="GridCell.Tab.0.left/0.25.1680.954@0.25.1680.954" timestamp="1620450050058" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right" timestamp="1620460804084">
+      <screen x="0" y="25" width="1680" height="949" />
+    </state>
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.945@0.25.1680.945" timestamp="1620382274525" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.947@0.25.1680.947" timestamp="1620375675144" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.949@0.25.1680.949" timestamp="1620460804084" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.951@0.25.1680.951" timestamp="1620447445064" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.953@0.25.1680.953" timestamp="1620448613875" />
+    <state width="1326" height="222" key="GridCell.Tab.0.right/0.25.1680.954@0.25.1680.954" timestamp="1620450050059" />
+    <state width="1326" height="276" key="GridCell.Tab.1.bottom" timestamp="1620446045903">
+      <screen x="0" y="25" width="1680" height="953" />
+    </state>
+    <state width="1326" height="276" key="GridCell.Tab.1.bottom/0.25.1680.953@0.25.1680.953" timestamp="1620446045903" />
+    <state width="1326" height="276" key="GridCell.Tab.1.bottom/0.25.1680.954@0.25.1680.954" timestamp="1620445601108" />
+    <state width="1326" height="276" key="GridCell.Tab.1.center" timestamp="1620446045902">
+      <screen x="0" y="25" width="1680" height="953" />
+    </state>
+    <state width="1326" height="276" key="GridCell.Tab.1.center/0.25.1680.953@0.25.1680.953" timestamp="1620446045902" />
+    <state width="1326" height="276" key="GridCell.Tab.1.center/0.25.1680.954@0.25.1680.954" timestamp="1620445601107" />
+    <state width="1326" height="276" key="GridCell.Tab.1.left" timestamp="1620446045902">
+      <screen x="0" y="25" width="1680" height="953" />
+    </state>
+    <state width="1326" height="276" key="GridCell.Tab.1.left/0.25.1680.953@0.25.1680.953" timestamp="1620446045902" />
+    <state width="1326" height="276" key="GridCell.Tab.1.left/0.25.1680.954@0.25.1680.954" timestamp="1620445601106" />
+    <state width="1326" height="276" key="GridCell.Tab.1.right" timestamp="1620446045902">
+      <screen x="0" y="25" width="1680" height="953" />
+    </state>
+    <state width="1326" height="276" key="GridCell.Tab.1.right/0.25.1680.953@0.25.1680.953" timestamp="1620446045902" />
+    <state width="1326" height="276" key="GridCell.Tab.1.right/0.25.1680.954@0.25.1680.954" timestamp="1620445601108" />
+    <state x="434" y="244" width="599" height="486" key="find.popup" timestamp="1620449819542">
+      <screen x="0" y="25" width="1680" height="953" />
+    </state>
+    <state x="434" y="244" width="599" height="486" key="find.popup/0.25.1680.953@0.25.1680.953" timestamp="1620449819542" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/deep_q_network.py</url>
+          <line>164</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

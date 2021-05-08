@@ -81,7 +81,7 @@ class GameState:
             if pipeMidPos <= playerMidPos < pipeMidPos + 4:
                 self.score += 1
                 #SOUNDS['point'].play()
-                reward = 1
+                reward = 2
 
         # playerIndex basex change
         if (self.loopIter + 1) % 3 == 0:
@@ -123,7 +123,7 @@ class GameState:
             #SOUNDS['die'].play()
             terminal = True
             self.__init__()
-            reward = -1
+            reward = -2
 
         # draw sprites
         SCREEN.blit(IMAGES['background'], (0,0))
