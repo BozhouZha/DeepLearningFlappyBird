@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="05594c1c-dd59-4fe0-a702-3ef829f9dd5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/DeepLearningFlappyBird.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/DeepLearningFlappyBird.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/wrapped_flappy_bird.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/wrapped_flappy_bird.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saved_networks/checkpoint" beforeDir="false" afterPath="$PROJECT_DIR$/saved_networks/checkpoint" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +72,7 @@
       <workItem from="1620385937905" duration="815000" />
       <workItem from="1620387069597" duration="26000" />
       <workItem from="1620387217918" duration="5494000" />
-      <workItem from="1620441973683" duration="2303000" />
+      <workItem from="1620441973683" duration="2460000" />
     </task>
     <task id="LOCAL-00001" summary="gitignore modified">
       <created>1620373773263</created>
