@@ -11,6 +11,8 @@ FPS = 30
 SCREENWIDTH  = 288
 SCREENHEIGHT = 512
 
+MAX_DYNAMIC_NOISE = 2
+
 pygame.init()
 FPSCLOCK = pygame.time.Clock()
 SCREEN = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
@@ -70,7 +72,9 @@ class GameState:
         # input_actions[1] == 1: flap the bird
         if input_actions[1] == 1:
             if self.playery > -2 * PLAYER_HEIGHT:
-                self.playerVelY = self.playerFlapAcc
+                dynamic_noise = np.random.normal(0, 1)
+                dynamic_noise = max(min(dynamic_noise, MAX_DYNAMIC_NOISE), -MAX_DYNAMIC_NOISE)
+                self.playerVelY = self.playerFlapAcc - dynamic_noise
                 self.playerFlapped = True
                 #SOUNDS['wing'].play()
 
