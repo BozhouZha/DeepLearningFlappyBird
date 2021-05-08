@@ -54,4 +54,4 @@ def createNetwork():
     # readout layer
     readout = tf.matmul(h_fc1, W_fc2) + b_fc2
 
-    return s, readout, h_fc1
+    return s, readout

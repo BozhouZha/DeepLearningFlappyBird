@@ -10,6 +10,8 @@ import random
 import numpy as np
 from collections import deque
 from create_network import createNetwork
+import copy
+import os
 
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
@@ -22,7 +24,7 @@ REPLAY_MEMORY = 50000 # number of previous transitions to remember
 BATCH = 32 # size of minibatch
 FRAME_PER_ACTION = 1
 
-def trainNetwork(s, readout, sess):
+def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
     # define the cost function
     a = tf.placeholder("float", [None, ACTIONS])
     y = tf.placeholder("float", [None])
@@ -46,15 +48,20 @@ def trainNetwork(s, readout, sess):
 
     # saving and loading networks
     saver = tf.train.Saver()
-    sess.run(tf.initialize_all_variables())
-    checkpoint = tf.train.get_checkpoint_state("saved_networks")
-    if checkpoint and checkpoint.model_checkpoint_path:
-        saver.restore(sess, checkpoint.model_checkpoint_path)
-        print("Successfully loaded:", checkpoint.model_checkpoint_path)
-    else:
-        print("Could not find old network weights")
+    sess.run(tf.global_variables_initializer())
 
-    # start training
+    if not os.path.exists("DDQN_saved_networks"):
+        os.makedirs("DDQN_saved_networks")
+    # checkpoint = tf.train.get_checkpoint_state("DDQN_saved_networks")
+    # if checkpoint and checkpoint.model_checkpoint_path:
+    #     saver.restore(sess, checkpoint.model_checkpoint_path)
+    #     print("Successfully loaded:", checkpoint.model_checkpoint_path)
+    # else:
+    #     print("Could not find old network weights")
+
+    #================================================================================================================#
+    #-------------------------------------------Train starts here----------------------------------------------------#
+    #================================================================================================================#
     epsilon = INITIAL_EPSILON
     t = 0
     while "flappy bird" != "angry bird":
@@ -139,11 +146,27 @@ def trainNetwork(s, readout, sess):
             "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
             "/ Q_MAX %e" % np.max(readout_t))
 
+    #================================================================================================================#
+    #-------------------------------------------Train ends here----------------------------------------------------#
+    #================================================================================================================#
 
 def playGame():
     sess = tf.InteractiveSession()
-    s, readout, h_fc1 = createNetwork()
-    trainNetwork(s, readout, sess)
+
+    # Main deep neural network
+    input_state, q = createNetwork()
+    q_nn_para = tf.trainable_variables()    # save the parameter
+    #q_nn = q
+
+    # Target deep neural network with delay trick
+    input_state_t, qt = createNetwork()
+    q_nn_t_para = tf.trainable_variables()[len(q_nn_para) :]    # save the parameter
+    #q_nn_t = qt
+
+    # Copy over the main nn to target nn
+    dup_main_to_target = [q_nn_t_para[i].assign(q_nn_para[i]) for i in range(len(q_nn_para))]
+
+    trainNetwork(input_state, q, input_state_t, qt,  dup_main_to_target, sess)
 
 if __name__ == "__main__":
     playGame()
