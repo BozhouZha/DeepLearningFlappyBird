@@ -23,6 +23,7 @@ INITIAL_EPSILON = 0.0001 # starting value of epsilon
 REPLAY_MEMORY = 50000 # number of previous transitions to remember
 BATCH = 32 # size of minibatch
 FRAME_PER_ACTION = 1
+TARGET_NETWORK_UPDATE_INTERVAL = 10
 
 def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
     # define the cost function
@@ -62,8 +63,9 @@ def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
     #================================================================================================================#
     #-------------------------------------------Train starts here----------------------------------------------------#
     #================================================================================================================#
-    epsilon = INITIAL_EPSILON
     t = 0
+    epsilon = INITIAL_EPSILON
+    sess.run(dup_main_to_target)
     while "flappy bird" != "angry bird":
         # choose an action epsilon greedily
         readout_t = readout.eval(feed_dict={s : [s_t]})[0]
