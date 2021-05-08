@@ -1,4 +1,4 @@
 # ignore all pyc files.
 *.pyc
-./.idea
+.idea
 saved_networks
