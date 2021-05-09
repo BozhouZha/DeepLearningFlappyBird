@@ -16,20 +16,26 @@ import os
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
 GAMMA = 0.99 # decay rate of past observations
-OBSERVE = 100000. # timesteps to observe before training
-EXPLORE = 2000000. # frames over which to anneal epsilon
+
+# OBSERVE = 100000. # timesteps to observe before training
+# EXPLORE = 2000000. # frames over which to anneal epsilon
+# INITIAL_EPSILON = 0.0001 # starting value of epsilon
+OBSERVE = 2000. # timesteps to observe before training
+EXPLORE = 3000000. # frames over which to anneal epsilon
+INITIAL_EPSILON = 0.1 # starting value of epsilon
+
 FINAL_EPSILON = 0.0001 # final value of epsilon
-INITIAL_EPSILON = 0.0001 # starting value of epsilon
 REPLAY_MEMORY = 50000 # number of previous transitions to remember
 BATCH = 32 # size of minibatch
 FRAME_PER_ACTION = 1
-TARGET_NETWORK_UPDATE_INTERVAL = 10
 
-def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
+TARGET_NETWORK_UPDATE_INTERVAL = 100
+
+def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
     # define the cost function
     a = tf.placeholder("float", [None, ACTIONS])
     y = tf.placeholder("float", [None])
-    readout_action = tf.reduce_sum(tf.multiply(readout, a), reduction_indices=1)
+    readout_action = tf.reduce_sum(tf.multiply(q, a), reduction_indices=1)
     cost = tf.reduce_mean(tf.square(y - readout_action))
     train_step = tf.train.AdamOptimizer(1e-6).minimize(cost)
 
@@ -68,7 +74,7 @@ def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
     sess.run(dup_main_to_target)
     while "flappy bird" != "angry bird":
         # choose an action epsilon greedily
-        readout_t = readout.eval(feed_dict={s : [s_t]})[0]
+        readout_t = q.eval(feed_dict={s : [s_t]})[0]
         a_t = np.zeros([ACTIONS])
         action_index = 0
         if t % FRAME_PER_ACTION == 0:
@@ -111,11 +117,11 @@ def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
             s_j1_batch = [d[3] for d in minibatch]
 
             y_batch = []
-            readout_j1_batch = readout.eval(feed_dict = {s : s_j1_batch})
+            readout_j1_batch = q_t.eval(feed_dict = {st : s_j1_batch})
             for i in range(0, len(minibatch)):
-                terminal = minibatch[i][4]
+                Terminal = minibatch[i][4]
                 # if terminal, only equals reward
-                if terminal:
+                if Terminal:
                     y_batch.append(r_batch[i])
                 else:
                     y_batch.append(r_batch[i] + GAMMA * np.max(readout_j1_batch[i]))
@@ -133,7 +139,7 @@ def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
 
         # save progress every 10000 iterations
         if t % 10000 == 0:
-            saver.save(sess, 'saved_networks/' + GAME + '-dqn', global_step = t)
+            saver.save(sess, 'DDQN_saved_networks/' + GAME + '-dqn', global_step = t)
 
         # print info
         state = ""
@@ -144,9 +150,11 @@ def trainNetwork(s, readout, st, readout_delayed, dup_main_to_target, sess):
         else:
             state = "train"
 
-        print("TIMESTEP", t, "/ STATE", state, \
-            "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
-            "/ Q_MAX %e" % np.max(readout_t))
+        if t % TARGET_NETWORK_UPDATE_INTERVAL == 0:
+            sess.run(dup_main_to_target)
+            print("TIMESTEP", t, "/ STATE", state, \
+                "/ EPSILON", epsilon, "/ ACTION", action_index, "/ REWARD", r_t, \
+                "/ Q_MAX %e" % np.max(readout_t))
 
     #================================================================================================================#
     #---------------------------------------------Train ends here----------------------------------------------------#
