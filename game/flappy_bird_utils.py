@@ -55,11 +55,26 @@ def load():
         pygame.image.load(PLAYER_PATH[2]).convert_alpha(),
     )
 
+    # original game function ==== Zhuheng
     # select random pipe sprites
+    # IMAGES['pipe'] = (
+    #     pygame.transform.rotate(
+    #         pygame.image.load(PIPE_PATH).convert_alpha(), 180),
+    #     pygame.image.load(PIPE_PATH).convert_alpha(),
+    # )
+
+    upper_pipe = pygame.transform.rotate(
+        pygame.image.load(PIPE_PATH).convert_alpha(), 180)
+    lower_pipe = pygame.image.load(PIPE_PATH).convert_alpha()
+
+    # scale the pipes' widths
+    # wid_scale = round(random.uniform(0.5, 1.5), 1)
+    # wid_scale = 1
+    # upper_pipe = pygame.transform.scale(upper_pipe, (int(wid_scale * upper_pipe.get_width()), upper_pipe.get_height()))
+    # lower_pipe = pygame.transform.scale(lower_pipe, (int(wid_scale * lower_pipe.get_width()), lower_pipe.get_height()))
     IMAGES['pipe'] = (
-        pygame.transform.rotate(
-            pygame.image.load(PIPE_PATH).convert_alpha(), 180),
-        pygame.image.load(PIPE_PATH).convert_alpha(),
+        upper_pipe,
+        lower_pipe,
     )
 
     # hismask for pipes

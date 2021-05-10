@@ -85,7 +85,7 @@ class GameState:
             if pipeMidPos <= playerMidPos < pipeMidPos + 4:
                 self.score += 1
                 #SOUNDS['point'].play()
-                reward = 2
+                reward = 2    # original 1
 
         # playerIndex basex change
         if (self.loopIter + 1) % 3 == 0:
@@ -127,7 +127,7 @@ class GameState:
             #SOUNDS['die'].play()
             terminal = True
             self.__init__()
-            reward = -2
+            reward = -2    # original -1 for failure
 
         # draw sprites
         SCREEN.blit(IMAGES['background'], (0,0))
@@ -155,8 +155,9 @@ def getRandomPipe():
     index = random.randint(0, len(gapYs)-1)
     gapY = gapYs[index]
 
+    x_incremental = random.uniform(0.5, 2.0)    # 0.5 2.0
     gapY += int(BASEY * 0.2)
-    pipeX = SCREENWIDTH + 10
+    pipeX = SCREENWIDTH + int(10 * x_incremental)    # 10
 
     gap_scale = np.random.rand()*0.8+0.8
     return [
