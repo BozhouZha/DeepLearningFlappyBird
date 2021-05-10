@@ -136,9 +136,9 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
                 s : s_j_batch}
             )
 
-            # evaluate network every 5000 timesteps
+            # evaluate network every 1000 timesteps
             if t%1000==0:
-                average_reward = evaluateNetwork(s,readout)
+                average_reward = evaluateNetwork(s, q)
                 reward_saver.append(average_reward)
 
         # update the old values
