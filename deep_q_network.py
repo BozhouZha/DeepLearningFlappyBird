@@ -12,6 +12,8 @@ from collections import deque
 from create_network import createNetwork
 import copy
 import os
+import matplotlib.pyplot as plt
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 GAME = 'bird' # the name of the game being played for log files
 ACTIONS = 2 # number of valid actions
@@ -71,6 +73,7 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
     #================================================================================================================#
     t = 0
     epsilon = INITIAL_EPSILON
+    reward_saver = []
     sess.run(dup_main_to_target)
     while "flappy bird" != "angry bird":
         # choose an action epsilon greedily
@@ -133,13 +136,23 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
                 s : s_j_batch}
             )
 
+            # evaluate network every 5000 timesteps
+            if t%1000==0:
+                average_reward = evaluateNetwork(s,readout)
+                reward_saver.append(average_reward)
+
         # update the old values
         s_t = s_t1
         t += 1
 
-        # save progress every 10000 iterations
+        # save progress every 10000 iterations and plot the average reward
         if t % 10000 == 0:
             saver.save(sess, 'DDQN_saved_networks/' + GAME + '-dqn', global_step = t)
+            fig, ax = plt.subplots(1)
+            ax.plot(range(len(reward_saver)), reward_saver)
+            ax.set_xlabel('time steps/1000')
+            ax.set_ylabel('average_reward')
+            fig.savefig('images/reward_images/average_reward_'+str(t)+'.png')
 
         # print info
         state = ""
@@ -159,6 +172,47 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
     #================================================================================================================#
     #---------------------------------------------Train ends here----------------------------------------------------#
     #================================================================================================================#
+
+def evaluateNetwork(s, readout):
+    print('start evaluation')
+    n_trails = 10
+    max_timestep = 2000
+    # run n trials and calculate the average score
+    average_reward = []
+    for i in range(n_trails):
+        game_state = game.GameState()
+        # get the first state by doing nothing and preprocess the image to 80x80x4
+        do_nothing = np.zeros(ACTIONS)
+        do_nothing[0] = 1
+        x_t, r_0, terminal = game_state.frame_step(do_nothing)
+        x_t = cv2.cvtColor(cv2.resize(x_t, (80, 80)), cv2.COLOR_BGR2GRAY)
+        ret, x_t = cv2.threshold(x_t, 1, 255, cv2.THRESH_BINARY)
+        s_t = np.stack((x_t, x_t, x_t, x_t), axis=2)
+
+        t = 0
+        reward_list = []
+        while (not terminal) and (t<max_timestep):
+            # choose an action epsilon greedily
+            readout_t = readout.eval(feed_dict={s : [s_t]})[0]
+            a_t = np.zeros([ACTIONS])
+            if t % FRAME_PER_ACTION == 0:
+                action_index = np.argmax(readout_t)
+                a_t[action_index] = 1
+            else:
+                a_t[0] = 1 # do nothing
+            x_t1_colored, r_t, terminal = game_state.frame_step(a_t)
+            reward_list.append(r_t)
+            x_t1 = cv2.cvtColor(cv2.resize(x_t1_colored, (80, 80)), cv2.COLOR_BGR2GRAY)
+            ret, x_t1 = cv2.threshold(x_t1, 1, 255, cv2.THRESH_BINARY)
+            x_t1 = np.reshape(x_t1, (80, 80, 1))
+            # s_t1 = np.append(x_t1, s_t[:,:,1:], axis = 2)
+            s_t1 = np.append(x_t1, s_t[:, :, :3], axis=2)
+
+            s_t = s_t1
+            t += 1
+        average_reward.append(sum(reward_list)/len(reward_list))
+    print('stop evaluation and the average reward is '+ str(sum(average_reward)/len(average_reward)))
+    return sum(average_reward)/len(average_reward)
 
 def playGame():
     sess = tf.InteractiveSession()
