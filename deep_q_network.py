@@ -152,6 +152,8 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
             ax.plot(range(len(reward_saver)), reward_saver)
             ax.set_xlabel('time steps/1000')
             ax.set_ylabel('average_reward')
+            if not os.path.exists("images/reward_images/"):
+                os.makedirs("images/reward_images/")
             fig.savefig('images/reward_images/average_reward_'+str(t)+'.png')
 
         # print info
