@@ -24,8 +24,8 @@ GAMMA = 0.99 # decay rate of past observations
 # INITIAL_EPSILON = 0.0001 # starting value of epsilon
 OBSERVE = 2000. # timesteps to observe before training
 EXPLORE = 3000000. # frames over which to anneal epsilon
-INITIAL_EPSILON = 0.1 # starting value of epsilon
-
+# INITIAL_EPSILON = 0.1 # starting value of epsilon
+INITIAL_EPSILON = 0.0001 # starting value of epsilon
 FINAL_EPSILON = 0.0001 # final value of epsilon
 REPLAY_MEMORY = 50000 # number of previous transitions to remember
 BATCH = 32 # size of minibatch
@@ -61,12 +61,12 @@ def trainNetwork(s, q, st, q_t, dup_main_to_target, sess):
 
     if not os.path.exists("DDQN_saved_networks"):
         os.makedirs("DDQN_saved_networks")
-    # checkpoint = tf.train.get_checkpoint_state("DDQN_saved_networks")
-    # if checkpoint and checkpoint.model_checkpoint_path:
-    #     saver.restore(sess, checkpoint.model_checkpoint_path)
-    #     print("Successfully loaded:", checkpoint.model_checkpoint_path)
-    # else:
-    #     print("Could not find old network weights")
+    checkpoint = tf.train.get_checkpoint_state("DDQN_saved_networks")
+    if checkpoint and checkpoint.model_checkpoint_path:
+        saver.restore(sess, checkpoint.model_checkpoint_path)
+        print("Successfully loaded:", checkpoint.model_checkpoint_path)
+    else:
+        print("Could not find old network weights")
 
     #================================================================================================================#
     #-------------------------------------------Train starts here----------------------------------------------------#
